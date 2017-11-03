@@ -8,6 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol DrawViewDelegate;
+
 @interface DrawView : UIView
+
+@property (nonatomic, weak, readwrite) id <DrawViewDelegate> delegate;
+
+- (void)clear;
+
+@end
+
+@protocol DrawViewDelegate<NSObject>
+
+@optional
+- (void)touchBegin:(DrawView *)view touchPoint:(CGPoint)point;
+
+- (void)toucheMoved:(DrawView *)view touchPoint:(CGPoint)point;
+
+- (void)touchEnded:(DrawView *)view;
 
 @end

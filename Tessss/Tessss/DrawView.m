@@ -50,16 +50,20 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     self.touchPoint = [touches.anyObject  locationInView:self];
+    if ( ![self.delegate respondsToSelector:@selector(touchBegin:touchPoint:)] ) return;
+    [self.delegate touchBegin:self touchPoint:_touchPoint];
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     self.touchPoint = [touches.anyObject  locationInView:self];
+    if ( ![self.delegate respondsToSelector:@selector(toucheMoved:touchPoint:)] ) return;
+    [self.delegate toucheMoved:self touchPoint:_touchPoint];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    _touchPoint = CGPointMake(0, 0);
-    [_bezierPathsM removeAllObjects];
-    [self setNeedsDisplay];
+    [self clear];
+    if ( ![self.delegate respondsToSelector:@selector(touchEnded:)] ) return;
+    [self.delegate touchEnded:self];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -69,6 +73,12 @@
         obj.lineWidth = DRAW_WIDTH * idx * 1.0 / DRAW_MAX;
         [obj stroke];
     }];
+}
+
+- (void)clear {
+    _touchPoint = CGPointMake(0, 0);
+    [_bezierPathsM removeAllObjects];
+    [self setNeedsDisplay];
 }
 
 @end
