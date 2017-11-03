@@ -9,9 +9,11 @@
 #import "ViewController.h"
 #import "DrawView.h"
 
-@interface ViewController ()
+@interface ViewController ()<DrawViewDelegate>
 
 @property (nonatomic, strong) DrawView *ssssView;
+
+@property (nonatomic, strong) DrawView *tmpView;
 
 @end
 
@@ -20,42 +22,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.ssssView = [DrawView new];
     [self.view addSubview:self.ssssView];
     self.ssssView.backgroundColor = [UIColor whiteColor];
-    self.ssssView.frame = self.view.bounds;
+    self.ssssView.frame = CGRectMake(0, 0, self.view.frame.size.width * 0.5, self.view.frame.size.height);
+    self.ssssView.delegate = self;
+    
+    
+    self.tmpView = [DrawView new];
+    [self.view addSubview:self.tmpView];
+    self.tmpView.backgroundColor = [UIColor grayColor];
+    self.tmpView.frame = CGRectMake(self.view.frame.size.width * 0.5, 0, self.view.frame.size.width * 0.5, self.view.frame.size.height);
+    
     
     // Do any additional setup after loading the view, typically from a nib.
 }
 
-- (DrawView *)ssssView  {
-    if ( _ssssView ) return _ssssView;
-    _ssssView = [DrawView new];
-    return _ssssView;
+- (void)touchBegin:(DrawView *)view touchPoint:(CGPoint)point {
+    [self.tmpView trackPoint:point];
 }
 
-//
-//- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-//    CGPoint loc = [touches.anyObject  locationInView:self.view];
-//    UIView *beforeView = self.view.subviews.lastObject;
-//    UIView *view = [self createViewWithPoint:loc];
-//    [self.view addSubview:view];
-//
-//    [UIView animateWithDuration:0.25 animations:^{
-//        beforeView.transform = CGAffineTransformMakeTranslation(loc.x, loc.y);
-//    } completion:^(BOOL finished) {
-//        [beforeView removeFromSuperview];
-//    }];
-//}
-//
-//- (UIView *)createViewWithPoint:(CGPoint)point {
-//    UIView *view  = [UIView new];
-//    view.frame = CGRectMake(point.x, point.y, 5, 5);
-//    view.backgroundColor = [UIColor colorWithRed:1.0 * (arc4random() % 256 / 255.0)
-//                                           green:1.0 * (arc4random() % 256 / 255.0)
-//                                            blue:1.0 * (arc4random() % 256 / 255.0)
-//                                           alpha:1];
-//    return view;
-//}
+- (void)toucheMoved:(DrawView *)view touchPoint:(CGPoint)point {
+    [self.tmpView trackPoint:point];
+}
+
+- (void)touchEnded:(DrawView *)view {
+    [self.tmpView trackClear];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

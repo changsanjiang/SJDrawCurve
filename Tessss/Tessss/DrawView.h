@@ -14,7 +14,16 @@
 
 @property (nonatomic, weak, readwrite) id <DrawViewDelegate> delegate;
 
-- (void)clear;
+- (void)touchClear;
+
+- (void)trackClear;
+
+- (void)trackPoint:(CGPoint)point;
+
+
+/// set color
+@property (nonatomic, strong, readwrite) UIColor *trackColor;
+@property (nonatomic, strong, readwrite) UIColor *touchColor;
 
 @end
 
