@@ -10,7 +10,6 @@
 
 
 #define DRAW_MAX        (15)
-#define DRAW_WIDTH      (8)
 
 @interface DrawView ()
 
@@ -33,6 +32,8 @@
     _bezierPathsM = [NSMutableArray new];
     _touchColor = [UIColor redColor];
     _trackColor = [UIColor greenColor];
+    _touchLine_MAXW = 8;
+    _trackLine_MAXW = 8;
     return self;
 }
 
@@ -97,14 +98,14 @@
     
     [_touchColor set];
     [_bezierPathsM enumerateObjectsUsingBlock:^(UIBezierPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        obj.lineWidth = DRAW_WIDTH * idx * 1.0 / DRAW_MAX;
+        obj.lineWidth = _touchLine_MAXW * idx * 1.0 / DRAW_MAX;
         [obj stroke];
     }];
     
     
     [_trackColor set];
     [_trackBezierPathsM enumerateObjectsUsingBlock:^(UIBezierPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        obj.lineWidth = DRAW_WIDTH * idx * 1.0 / DRAW_MAX;
+        obj.lineWidth = _trackLine_MAXW * idx * 1.0 / DRAW_MAX;
         [obj stroke];
     }];
 }

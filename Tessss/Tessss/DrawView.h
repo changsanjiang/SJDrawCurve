@@ -24,6 +24,10 @@
 /// set color
 @property (nonatomic, strong, readwrite) UIColor *trackColor;
 @property (nonatomic, strong, readwrite) UIColor *touchColor;
+/// default is 8
+@property (nonatomic, assign, readwrite) float touchLine_MAXW;
+/// default is 8
+@property (nonatomic, assign, readwrite) float trackLine_MAXW;
 
 @end
 
